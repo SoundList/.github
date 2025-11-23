@@ -27,6 +27,7 @@ graph TD
         SocialS["💬 SocialService\n(Reviews, Likes)"]:::service
         ContentS["🎵 ContentService\n(Songs & Albums)"]:::service
         AIS["🤖 AIService\n(ML.NET + Vertex AI)"]:::service
+        ContentS ~~~ UserS ~~~ SocialS ~~~ AIS
     end
 
     %% --- CONTEXTO DE NUBE ---
