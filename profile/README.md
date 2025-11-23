@@ -4,57 +4,59 @@ Aquí se detalla el flujo de comunicación entre Microservicios, Gateway e IA.
 
 ```mermaid
 graph TD
-    %% Estilos
-    classDef frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    classDef gateway fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
-    classDef service fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    classDef db fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,stroke-dasharray: 5 5;
-    classDef queue fill:#ffebee,stroke:#c62828,stroke-width:2px;
-    classDef external fill:#eeeeee,stroke:#616161,stroke-width:1px,stroke-dasharray: 5 5;
+    %% --- ESTILOS DE ALTO CONTRASTE ---
+    %% Usamos fondos claros con bordes fuertes y TEXTO NEGRO para máxima legibilidad
+    classDef frontend fill:#E1F5FE,stroke:#0277BD,stroke-width:2px,color:#000000;
+    classDef gateway fill:#FFF8E1,stroke:#FF8F00,stroke-width:2px,color:#000000;
+    classDef service fill:#FFFFFF,stroke:#2E7D32,stroke-width:2px,color:#000000,rx:5,ry:5;
+    classDef db fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,stroke-dasharray: 5 5,color:#000000;
+    classDef queue fill:#FFEBEE,stroke:#C62828,stroke-width:2px,color:#000000;
+    classDef external fill:#FAFAFA,stroke:#616161,stroke-width:1px,stroke-dasharray: 5 5,color:#000000;
 
-    %% Nodos Principales (CON COMILLAS AGREGADAS)
+    %% --- NODOS PRINCIPALES ---
     Client["💻 Frontend Web App"]:::frontend
     YARP["🛡️ API Gateway (YARP)"]:::gateway
-    Rabbit["🐰 RabbitMQ (Bus)"]:::queue
-    DB[("🐘 PostgreSQL\nJSONB + Relacional")]:::db
+    Rabbit["🐰 RabbitMQ (Event Bus)"]:::queue
+    DB[("🐘 PostgreSQL\n(Relacional + JSONB)")]:::db
 
-    %% Subgrafo de Microservicios
-    subgraph Cluster_Services ["🏗️ Microservices Ecosystem"]
+    %% --- CONTEXTO DE MICROSERVICIOS ---
+    subgraph Services ["🏗️ Ecosistema de Microservicios"]
         direction TB
+        %% Definimos los nodos con texto negro explícito
         UserS["👤 UserService\n(Auth & Profiles)"]:::service
-        SocialS["💬 SocialService\n(Reviews, Likes, Comments)"]:::service
+        SocialS["💬 SocialService\n(Reviews, Likes)"]:::service
         ContentS["🎵 ContentService\n(Songs & Albums)"]:::service
-        AIS["🤖 AIService\n(Sentiment & Summary)"]:::service
+        AIS["🤖 AIService\n(ML.NET + Vertex AI)"]:::service
     end
 
-    %% Subgrafo Externo
-    subgraph Cluster_Cloud ["☁️ External Cloud APIs"]
+    %% --- CONTEXTO DE NUBE ---
+    subgraph Cloud ["☁️ APIs Externas"]
         Spotify["🎧 Spotify API"]:::external
         Vertex["🧠 Google Vertex AI"]:::external
     end
 
-    %% Conexiones Síncronas (HTTP)
-    Client -->|"1. HTTPS Request + JWT"| YARP
-    YARP -->|"Proxy / Routes"| UserS
-    YARP -->|"Proxy / Routes"| SocialS
-    YARP -->|"Proxy / Routes"| ContentS
+    %% --- CONEXIONES (FLUJO) ---
+    
+    %% 1. Entrada
+    Client ==>|"1. HTTPS + JWT"| YARP
+    YARP ==>|"Proxy"| UserS
+    YARP ==>|"Proxy"| SocialS
+    YARP ==>|"Proxy"| ContentS
 
-    ContentS -->|"Search Data"| Spotify
+    %% 2. Dependencias Externas
+    ContentS -->|"Search Music"| Spotify
+    AIS -->|"Generar Resumen"| Vertex
 
-    %% Conexiones a Base de Datos
-    UserS -->|"Read/Write"| DB
-    SocialS -->|"Read/Write"| DB
-    ContentS -->|"Cache Data"| DB
-    AIS -->|"Read/Write Analysis"| DB
+    %% 3. Comunicación Asíncrona (RabbitMQ)
+    SocialS -.->|"2. Publica: ReviewCreated"| Rabbit
+    Rabbit -.->|"3. Consume Evento"| AIS
 
-    %% Conexiones Asíncronas (Mensajería)
-    SocialS -.->|"2. Publish: ReviewCreated"| Rabbit
-    Rabbit -.->|"3. Consume Event"| AIS
+    %% 4. Base de Datos (Conexiones más finas para no ensuciar)
+    UserS --- DB
+    SocialS --- DB
+    ContentS --- DB
+    AIS --- DB
 
-    %% IA Flow
-    AIS -->|"4. Analyze Sentiment"| AIS
-    AIS -->|"5. Generate Summary"| Vertex
-
-    %% Leyenda (Invisible link for layout)
-    UserS ~~~ SocialS
+    %% Truco visual para alinear (Links invisibles)
+    UserS ~~~ AIS
 ```
