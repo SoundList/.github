@@ -32,6 +32,7 @@ graph TD
     %% --- CONTEXTO DE NUBE ---
     subgraph Cloud ["☁️ APIs Externas"]
         Spotify["🎧 Spotify API"]:::external
+        Deezer["🎶 Deezer API"]:::external
         Vertex["🧠 Google Vertex AI"]:::external
     end
 
@@ -45,6 +46,7 @@ graph TD
 
     %% 2. Dependencias Externas
     ContentS -->|"Search Music"| Spotify
+    ContentS -->|"Songs Preview"| Deezer
     AIS -->|"Generar Resumen"| Vertex
 
     %% 3. Comunicación Asíncrona (RabbitMQ)
