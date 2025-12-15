@@ -1,6 +1,43 @@
+<div align="center">
+
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm95aW1wZnF4aDN2ZnJ5bm95aW1wZnF4aDN2ZnJ5bm95aW1wZnF4aDN2ZnJ5/7lCJ3fD2d8O09/giphy.gif" width="100" />
+
+  <h1>SoundList 🎧</h1>
+  <h3>Distributed Social Music Platform powered by AI</h3>
+
+  <p>
+    <b>Microservicios • Event-Driven Architecture • Artificial Intelligence</b>
+  </p>
+
+  <p>
+    <a href="https://soundlist-front-end.vercel.app/">
+      <img src="https://img.shields.io/badge/LIVE_DEMO-b54640?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" />
+    </a>
+    <a href="#-arquitectura-del-sistema">
+      <img src="https://img.shields.io/badge/VER_ARQUITECTURA-0f0706?style=for-the-badge&logo=mermaid&logoColor=white" alt="Architecture" />
+    </a>
+  </p>
+</div>
+
+---
+
+## 💡 Sobre el Proyecto
+
+**SoundList** no es solo una app de música; es una red social distribuida diseñada para melómanos. Permite a los usuarios reseñar canciones, crear listas colaborativas y recibir análisis de sentimientos generados por IA sobre sus opiniones.
+
+El desafío principal no fue solo consumir la API de Spotify, sino orquestar un ecosistema de **Microservicios en .NET 8** capaz de manejar tareas pesadas (como el procesamiento de IA) sin bloquear la experiencia del usuario, utilizando un enfoque asíncrono con **RabbitMQ**.
+
+### 🌟 Features Clave
+* **Integración Musical:** Búsqueda y previsualización en tiempo real vía **Spotify & Deezer APIs**.
+* **AI-Powered Insights:** Análisis de reseñas y generación de resúmenes utilizando **Google Vertex AI**.
+* **Arquitectura Resiliente:** Comunicación asíncrona para evitar cuellos de botella.
+* **Gateway Unificado:** Implementación de **YARP** (Yet Another Reverse Proxy) para enrutamiento seguro.
+
+---
+
 ## 🏗️ Arquitectura del Sistema
 
-Aquí se detalla el flujo de comunicación entre Microservicios, Gateway e IA.
+Como **Tech Lead** del proyecto, diseñé esta arquitectura para asegurar el desacoplamiento de servicios y la escalabilidad.
 
 ```mermaid
 graph TD
@@ -62,4 +99,3 @@ graph TD
 
     %% Truco visual para alinear (Links invisibles)
     UserS ~~~ AIS
-```
