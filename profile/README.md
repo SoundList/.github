@@ -99,3 +99,13 @@ graph TD
 
     %% Truco visual para alinear (Links invisibles)
     UserS ~~~ AIS
+```
+## 🛠️ Stack Tecnológico
+<div align="left"> 
+  <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white"/> 
+  <img src="https://www.google.com/search?q=https://img.shields.io/badge/.NET_8-512BD4%3Fstyle%3Dfor-the-badge%26logo%3Ddotnet%26logoColor%3Dwhite"/> 
+  <img src="https://img.shields.io/badge/RabbitMQ-FF6600?style=for-the-badge&logo=rabbitmq&logoColor=white"/> 
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/> 
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white"/> 
+  <img src="https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white"/> 
+</div>
